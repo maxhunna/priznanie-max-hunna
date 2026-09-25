@@ -1,196 +1,951 @@
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#f8f7f4">
-  <title>Признание — Max Hunna</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    :root{
-      --bg:#f7f6f2;
-      --paper:#fffefa;
-      --ink:#161616;
-      --muted:#8b8985;
-      --line:#dedbd5;
-      --red:#a51422;
-      --red-soft:#c62b38;
-      --shadow:0 18px 55px rgba(39,29,25,.10);
-      --safe-top:env(safe-area-inset-top,0px);
-      --safe-bottom:env(safe-area-inset-bottom,0px);
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,Segoe UI,Arial,sans-serif}
-    body{overflow-x:hidden}
-    button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-    .app{width:min(100%,520px);margin:0 auto;padding:calc(18px + var(--safe-top)) 20px calc(34px + var(--safe-bottom));}
-    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-    .top .eyebrow{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:650}
-    .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 0 5px rgba(165,20,34,.08)}
-    .cover-wrap{position:relative;width:100%;aspect-ratio:1/1;border-radius:25px;overflow:hidden;background:#eee;box-shadow:var(--shadow)}
-    .cover{width:100%;height:100%;object-fit:cover;display:block}
-    .cover-wrap:after{content:"";position:absolute;inset:0;border-radius:25px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.045);pointer-events:none}
-    .meta{padding:21px 2px 11px}
-    .title{font-size:27px;line-height:1.05;font-weight:760;letter-spacing:-.035em}
-    .artist{margin-top:7px;font-size:15px;color:var(--muted);font-weight:560}
-    .progress-area{margin-top:13px}
-    .range{appearance:none;width:100%;height:20px;background:transparent;margin:0;display:block}
-    .range::-webkit-slider-runnable-track{height:3px;background:linear-gradient(to right,var(--red) var(--progress,0%),#d7d4ce var(--progress,0%));border-radius:10px}
-    .range::-moz-range-track{height:3px;background:#d7d4ce;border-radius:10px}
-    .range::-moz-range-progress{height:3px;background:var(--red);border-radius:10px}
-    .range::-webkit-slider-thumb{appearance:none;width:13px;height:13px;border-radius:50%;background:var(--red);margin-top:-5px;box-shadow:0 1px 5px rgba(0,0,0,.18)}
-    .range::-moz-range-thumb{width:13px;height:13px;border:0;border-radius:50%;background:var(--red)}
-    .times{display:flex;justify-content:space-between;color:#8c8984;font-size:11px;font-variant-numeric:tabular-nums;margin-top:-1px}
-    .controls{display:flex;align-items:center;justify-content:center;gap:27px;margin:11px 0 23px}
-    .control{width:35px;height:35px;display:grid;place-items:center}
-    .control svg{width:23px;height:23px;fill:currentColor}
-    .control.skip svg{width:25px;height:25px}
-    .play{width:61px;height:61px;border-radius:50%;background:var(--ink);color:white;display:grid;place-items:center;box-shadow:0 9px 22px rgba(0,0,0,.13);transition:transform .15s ease}
-    .play:active{transform:scale(.95)}
-    .play svg{width:24px;height:24px;margin-left:2px}
-    .lyrics{margin-top:5px;padding:4px 0 30px;position:relative}
-    .lyrics:before,.lyrics:after{content:"";position:absolute;left:0;right:0;height:44px;z-index:2;pointer-events:none}
-    .lyrics:before{top:0;background:linear-gradient(var(--bg),rgba(247,246,242,0))}
-    .lyrics:after{bottom:0;background:linear-gradient(rgba(247,246,242,0),var(--bg))}
-    .lyrics-scroller{height:360px;overflow-y:auto;scroll-behavior:smooth;scrollbar-width:none;padding:150px 3px 150px}
-    .lyrics-scroller::-webkit-scrollbar{display:none}
-    .lyric{font-size:23px;line-height:1.27;letter-spacing:-.025em;font-weight:650;color:#c1bdb7;padding:7px 0;transform-origin:left center;transition:color .35s ease,transform .35s ease,opacity .35s ease}
-    .lyric.active{color:var(--ink);transform:scale(1.025)}
-    .lyric.past{color:#aaa59f}
-    .hint{font-size:11px;color:#a29e98;text-align:center;margin-top:2px;letter-spacing:.02em}
-    .loading{position:absolute;inset:0;display:grid;place-items:center;background:rgba(247,246,242,.92);font-size:13px;color:var(--muted);z-index:10}
-    .loading.hidden{display:none}
-    @media (min-width:520px){.app{padding-left:26px;padding-right:26px}.cover-wrap{border-radius:28px}}
-    @media (max-height:720px){.lyrics-scroller{height:285px}.lyric{font-size:20px}.cover-wrap{max-height:52vh;aspect-ratio:1/1}}
-  </style>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"
+    >
+
+    <title>Признание — Max Hunna</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        :root {
+            --bg: #4a050a;
+            --bg-dark: #350307;
+            --red: #b30d18;
+            --red-light: #c91622;
+            --white: #ffffff;
+            --white-soft: rgba(255, 255, 255, 0.72);
+            --white-faint: rgba(255, 255, 255, 0.42);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--white);
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "SF Pro Display",
+                "SF Pro Text",
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+        }
+
+        body {
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .app {
+            width: 100%;
+            min-height: 100dvh;
+            padding:
+                max(24px, env(safe-area-inset-top))
+                20px
+                max(24px, env(safe-area-inset-bottom));
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(255, 50, 60, 0.13),
+                    transparent 38%
+                ),
+                linear-gradient(
+                    180deg,
+                    #57070d 0%,
+                    #4a050a 48%,
+                    #380307 100%
+                );
+        }
+
+        .content {
+            width: 100%;
+            max-width: 430px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* COVER */
+
+        .cover-wrapper {
+            width: min(78vw, 330px);
+            aspect-ratio: 1 / 1;
+
+            margin-top: 8px;
+
+            border-radius: 24px;
+            overflow: hidden;
+
+            background: #280205;
+
+            box-shadow:
+                0 24px 55px rgba(0, 0, 0, 0.35),
+                0 8px 20px rgba(0, 0, 0, 0.2);
+
+            transform: translateZ(0);
+        }
+
+        .cover {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        /* TITLE */
+
+        .title {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .title h1 {
+            margin: 0;
+
+            font-size: 29px;
+            line-height: 1.08;
+            font-weight: 700;
+            letter-spacing: -0.7px;
+        }
+
+        .title p {
+            margin: 7px 0 0;
+
+            font-size: 16px;
+            line-height: 1.2;
+            font-weight: 500;
+
+            color: var(--white-soft);
+            letter-spacing: -0.1px;
+        }
+
+        /* PLAYER */
+
+        .player {
+            width: 100%;
+            margin-top: 24px;
+        }
+
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 8px;
+
+            font-size: 12px;
+            font-weight: 500;
+
+            color: var(--white-soft);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 28px;
+
+            display: flex;
+            align-items: center;
+
+            cursor: pointer;
+            touch-action: none;
+        }
+
+        .progress-track {
+            position: relative;
+
+            width: 100%;
+            height: 5px;
+
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.24);
+            overflow: visible;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 0%;
+            height: 100%;
+
+            border-radius: 999px;
+            background: #ffffff;
+
+            pointer-events: none;
+        }
+
+        .progress-thumb {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+
+            width: 15px;
+            height: 15px;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            transform: translate(-50%, -50%);
+
+            box-shadow:
+                0 2px 7px rgba(0, 0, 0, 0.28);
+
+            pointer-events: none;
+        }
+
+        .controls {
+            margin-top: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-button {
+            width: 68px;
+            height: 68px;
+
+            border: 0;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #ffffff;
+            color: var(--red);
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.28),
+                0 2px 6px rgba(0, 0, 0, 0.18);
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+        .play-button:active {
+            transform: scale(0.93);
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+
+            margin-left: 4px;
+
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid currentColor;
+        }
+
+        .pause-icon {
+            display: flex;
+            gap: 5px;
+        }
+
+        .pause-icon span {
+            width: 5px;
+            height: 21px;
+
+            border-radius: 2px;
+
+            background: currentColor;
+        }
+
+        /* LYRICS */
+
+        .lyrics {
+            width: 100%;
+
+            margin-top: 26px;
+            padding: 22px 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #c91622 0%,
+                    #b30d18 55%,
+                    #9f0913 100%
+                );
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.18);
+
+            min-height: 190px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+        .lyrics-scroll {
+            width: 100%;
+            max-height: 245px;
+
+            overflow-y: auto;
+            overscroll-behavior: contain;
+
+            scrollbar-width: none;
+
+            scroll-behavior: smooth;
+        }
+
+        .lyrics-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .lyric-line {
+            padding: 7px 4px;
+
+            text-align: center;
+
+            font-size: 16px;
+            line-height: 1.35;
+
+            font-weight: 500;
+
+            color: rgba(255, 255, 255, 0.43);
+
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease,
+                opacity 0.25s ease,
+                font-size 0.25s ease;
+        }
+
+        .lyric-line.active {
+            color: #ffffff;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            transform: scale(1.015);
+        }
+
+        .lyrics-empty {
+            text-align: center;
+
+            color: rgba(255, 255, 255, 0.55);
+
+            font-size: 15px;
+        }
+
+        /* AUDIO */
+
+        audio {
+            display: none;
+        }
+
+        /* DESKTOP */
+
+        @media (min-width: 700px) {
+            .app {
+                padding-top: 40px;
+            }
+
+            .cover-wrapper {
+                width: 350px;
+            }
+
+            .lyrics {
+                min-height: 210px;
+            }
+        }
+
+        /* SMALL PHONES */
+
+        @media (max-height: 700px) {
+            .cover-wrapper {
+                width: min(64vw, 270px);
+            }
+
+            .title {
+                margin-top: 15px;
+            }
+
+            .title h1 {
+                font-size: 26px;
+            }
+
+            .player {
+                margin-top: 17px;
+            }
+
+            .lyrics {
+                margin-top: 18px;
+                padding: 17px 15px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <main class="app">
-    <div class="top"><div class="eyebrow">для тебя</div><div class="dot"></div></div>
-    <section class="cover-wrap">
-      <img class="cover" src="assets/cover.png" alt="Обложка">
-      <div class="loading" id="loading">Загрузка музыки…</div>
-    </section>
 
-    <section class="meta">
-      <div class="title">Признание</div>
-      <div class="artist">Max Hunna</div>
-    </section>
+<div class="app">
 
-    <section class="progress-area">
-      <input class="range" id="seek" type="range" min="0" max="142.733" step="0.01" value="0" aria-label="Перемотка">
-      <div class="times"><span id="current">0:00</span><span id="duration">2:23</span></div>
-    </section>
+    <main class="content">
 
-    <div class="controls">
-      <button class="control skip" id="back" aria-label="Назад на 10 секунд">
-        <svg viewBox="0 0 24 24"><path d="M11 6V3L6 7.5 11 12V9c3.2 0 5.5 2.1 5.5 5s-2.3 5-5.5 5a6 6 0 0 1-5.5-3.5l-1.8.9A8 8 0 0 0 11 21c4.4 0 7.5-3 7.5-7s-3.1-8-7.5-8Z"/><path d="M3 7h2v6H3z"/></svg>
-      </button>
-      <button class="play" id="play" aria-label="Воспроизвести">
-        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5.2v13.6c0 .9 1 1.4 1.8.9l10-6.8c.7-.5.7-1.5 0-2l-10-6.8C9 3.8 8 4.3 8 5.2Z"/></svg>
-      </button>
-      <button class="control skip" id="forward" aria-label="Вперёд на 10 секунд">
-        <svg viewBox="0 0 24 24"><path d="M13 6V3l5 4.5-5 4.5V9c-3.2 0-5.5 2.1-5.5 5S9.8 19 13 19a6 6 0 0 0 5.5-3.5l1.8.9A8 8 0 0 1 13 21c-4.4 0-7.5-3-7.5-7s3.1-8 7.5-8Z"/><path d="M19 7h2v6h-2z"/></svg>
-      </button>
-    </div>
+        <!-- COVER -->
+        <div class="cover-wrapper">
+            <img
+                class="cover"
+                src="assets/cover.png"
+                alt="Признание"
+            >
+        </div>
 
-    <section class="lyrics" aria-label="Текст песни">
-      <div class="lyrics-scroller" id="lyrics"></div>
-      <div class="hint">нажми на строку, чтобы перейти к этому моменту</div>
-    </section>
-  </main>
+        <!-- TITLE -->
+        <div class="title">
+            <h1>Признание</h1>
+            <p>Max Hunna</p>
+        </div>
 
-  <audio id="audio" preload="metadata" src="assets/song.mp3"></audio>
-  <script>
+        <!-- PLAYER -->
+        <div class="player">
+
+            <div class="time-row">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+
+            <div
+                class="progress-container"
+                id="progressContainer"
+                aria-label="Перемотка"
+            >
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        id="progressFill"
+                    ></div>
+
+                    <div
+                        class="progress-thumb"
+                        id="progressThumb"
+                    ></div>
+                </div>
+            </div>
+
+            <div class="controls">
+
+                <button
+                    class="play-button"
+                    id="playButton"
+                    aria-label="Воспроизвести"
+                >
+                    <span class="play-icon"></span>
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- LYRICS -->
+        <section class="lyrics">
+
+            <div
+                class="lyrics-scroll"
+                id="lyricsScroll"
+            >
+                <div
+                    class="lyrics-empty"
+                    id="lyricsEmpty"
+                >
+                    Загрузка текста…
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<audio
+    id="audio"
+    preload="metadata"
+    playsinline
+>
+    <source
+        src="assets/song.mp3"
+        type="audio/mpeg"
+    >
+</audio>
+
+<script>
+    /* TELEGRAM */
+
     const tg = window.Telegram?.WebApp;
-    if (tg) { tg.ready(); tg.expand(); tg.setHeaderColor('#f7f6f2'); tg.setBackgroundColor('#f7f6f2'); }
 
-    const audio = document.getElementById('audio');
-    const playBtn = document.getElementById('play');
-    const playIcon = document.getElementById('playIcon');
-    const seek = document.getElementById('seek');
-    const currentEl = document.getElementById('current');
-    const durationEl = document.getElementById('duration');
-    const lyricsEl = document.getElementById('lyrics');
-    const loading = document.getElementById('loading');
+    if (tg) {
+        tg.ready();
+        tg.expand();
 
-    let lines = [];
-    let activeIndex = -1;
-    let raf = null;
+        if (tg.setHeaderColor) {
+            tg.setHeaderColor("#4A050A");
+        }
 
-    function formatTime(sec) {
-      sec = Math.max(0, Math.floor(sec || 0));
-      const m = Math.floor(sec / 60), s = String(sec % 60).padStart(2,'0');
-      return `${m}:${s}`;
+        if (tg.setBackgroundColor) {
+            tg.setBackgroundColor("#4A050A");
+        }
     }
+
+
+    /* ELEMENTS */
+
+    const audio = document.getElementById("audio");
+    const playButton = document.getElementById("playButton");
+
+    const progressContainer =
+        document.getElementById("progressContainer");
+
+    const progressFill =
+        document.getElementById("progressFill");
+
+    const progressThumb =
+        document.getElementById("progressThumb");
+
+    const currentTimeElement =
+        document.getElementById("currentTime");
+
+    const durationElement =
+        document.getElementById("duration");
+
+    const lyricsScroll =
+        document.getElementById("lyricsScroll");
+
+    const lyricsEmpty =
+        document.getElementById("lyricsEmpty");
+
+
+    /* LYRICS */
+
+    let lyrics = [];
+    let activeLyricIndex = -1;
+
 
     function parseLRC(text) {
-      return text.split(/\r?\n/).flatMap(line => {
-        const matches = [...line.matchAll(/\[(\d{2}):(\d{2}(?:\.\d+)?)\]/g)];
-        const lyric = line.replace(/\[\d{2}:\d{2}(?:\.\d+)?\]/g, '').trim();
-        return matches.map(m => ({ time: Number(m[1]) * 60 + Number(m[2]), text: lyric }));
-      }).filter(x => x.text).sort((a,b) => a.time - b.time);
+
+        const result = [];
+
+        const lines = text.split(/\r?\n/);
+
+        for (const line of lines) {
+
+            const matches = [
+                ...line.matchAll(/\[(\d+):(\d+(?:\.\d+)?)\]/g)
+            ];
+
+            if (!matches.length) {
+                continue;
+            }
+
+            const textPart = line
+                .replace(/\[\d+:\d+(?:\.\d+)?\]/g, "")
+                .trim();
+
+            for (const match of matches) {
+
+                const minutes = Number(match[1]);
+                const seconds = Number(match[2]);
+
+                const time =
+                    minutes * 60 +
+                    seconds;
+
+                result.push({
+                    time,
+                    text: textPart
+                });
+            }
+        }
+
+        result.sort((a, b) => a.time - b.time);
+
+        return result;
     }
+
 
     async function loadLyrics() {
-      const res = await fetch('assets/lyrics.lrc');
-      lines = parseLRC(await res.text());
-      lyricsEl.innerHTML = lines.map((line, i) => `<button class="lyric" data-index="${i}">${escapeHtml(line.text)}</button>`).join('');
-      lyricsEl.querySelectorAll('.lyric').forEach(el => el.addEventListener('click', () => {
-        const i = Number(el.dataset.index); audio.currentTime = lines[i].time; if (audio.paused) audio.play();
-      }));
+
+        try {
+
+            const response =
+                await fetch(
+                    "assets/lyrics.lrc?version=" +
+                    Date.now()
+                );
+
+            if (!response.ok) {
+                throw new Error(
+                    "LRC HTTP " + response.status
+                );
+            }
+
+            const text = await response.text();
+
+            lyrics = parseLRC(text);
+
+            renderLyrics();
+
+        } catch (error) {
+
+            console.error(
+                "Ошибка загрузки LRC:",
+                error
+            );
+
+            lyricsEmpty.textContent =
+                "Текст песни пока недоступен.";
+        }
     }
 
-    function escapeHtml(s) { return s.replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
 
-    function updateLyric(t) {
-      if (!lines.length) return;
-      let lo = 0, hi = lines.length - 1, idx = -1;
-      while (lo <= hi) { const mid = (lo + hi) >> 1; if (lines[mid].time <= t + 0.02) { idx = mid; lo = mid + 1; } else hi = mid - 1; }
-      if (idx === activeIndex) return;
-      activeIndex = idx;
-      [...lyricsEl.children].forEach((el, i) => {
-        el.classList.toggle('active', i === idx);
-        el.classList.toggle('past', i < idx);
-      });
-      const active = lyricsEl.children[idx];
-      if (active) active.scrollIntoView({behavior:'smooth', block:'center'});
+    function renderLyrics() {
+
+        lyricsScroll.innerHTML = "";
+
+        if (!lyrics.length) {
+
+            const empty =
+                document.createElement("div");
+
+            empty.className =
+                "lyrics-empty";
+
+            empty.textContent =
+                "Текст песни пока недоступен.";
+
+            lyricsScroll.appendChild(empty);
+
+            return;
+        }
+
+        lyrics.forEach((line, index) => {
+
+            const element =
+                document.createElement("div");
+
+            element.className =
+                "lyric-line";
+
+            element.dataset.index =
+                index;
+
+            element.textContent =
+                line.text || " ";
+
+            lyricsScroll.appendChild(element);
+        });
     }
 
-    function tick() {
-      const t = audio.currentTime || 0;
-      const d = audio.duration || 142.733;
-      seek.value = t;
-      seek.max = d;
-      seek.style.setProperty('--progress', `${d ? (t/d)*100 : 0}%`);
-      currentEl.textContent = formatTime(t);
-      durationEl.textContent = formatTime(d);
-      updateLyric(t);
-      if (!audio.paused) raf = requestAnimationFrame(tick);
+
+    function updateLyrics(time) {
+
+        if (!lyrics.length) {
+            return;
+        }
+
+        let newIndex = -1;
+
+        for (let i = 0; i < lyrics.length; i++) {
+
+            if (time >= lyrics[i].time) {
+                newIndex = i;
+            } else {
+                break;
+            }
+        }
+
+        if (newIndex === activeLyricIndex) {
+            return;
+        }
+
+        activeLyricIndex = newIndex;
+
+        const elements =
+            lyricsScroll.querySelectorAll(".lyric-line");
+
+        elements.forEach((element, index) => {
+
+            element.classList.toggle(
+                "active",
+                index === activeLyricIndex
+            );
+        });
+
+        if (activeLyricIndex >= 0) {
+
+            const activeElement =
+                elements[activeLyricIndex];
+
+            if (activeElement) {
+
+                activeElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+        }
     }
 
-    function setPlaying(isPlaying) {
-      playIcon.innerHTML = isPlaying
-        ? '<path d="M7 5h3v14H7zM14 5h3v14h-3z"/>'
-        : '<path d="M8 5.2v13.6c0 .9 1 1.4 1.8.9l10-6.8c.7-.5.7-1.5 0-2l-10-6.8C9 3.8 8 4.3 8 5.2Z"/>';
+
+    /* PLAYER */
+
+    function formatTime(seconds) {
+
+        if (!Number.isFinite(seconds)) {
+            return "0:00";
+        }
+
+        const minutes =
+            Math.floor(seconds / 60);
+
+        const secs =
+            Math.floor(seconds % 60);
+
+        return (
+            minutes +
+            ":" +
+            String(secs).padStart(2, "0")
+        );
     }
 
-    playBtn.addEventListener('click', async () => {
-      if (audio.paused) { await audio.play(); } else audio.pause();
-      setPlaying(!audio.paused); tick();
-      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-    });
-    document.getElementById('back').addEventListener('click', () => audio.currentTime = Math.max(0, audio.currentTime - 10));
-    document.getElementById('forward').addEventListener('click', () => audio.currentTime = Math.min(audio.duration || 142.733, audio.currentTime + 10));
-    seek.addEventListener('input', () => { audio.currentTime = Number(seek.value); tick(); });
-    audio.addEventListener('loadedmetadata', () => { seek.max = audio.duration; durationEl.textContent = formatTime(audio.duration); loading.classList.add('hidden'); tick(); });
-    audio.addEventListener('canplay', () => loading.classList.add('hidden'));
-    audio.addEventListener('play', () => { setPlaying(true); cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); });
-    audio.addEventListener('pause', () => { setPlaying(false); cancelAnimationFrame(raf); tick(); });
-    audio.addEventListener('ended', () => { setPlaying(false); audio.currentTime = 0; tick(); });
-    audio.addEventListener('error', () => { loading.textContent = 'Не удалось загрузить аудио'; });
 
-    loadLyrics().catch(() => { lyricsEl.innerHTML = '<div class="lyric active">Текст пока недоступен</div>'; });
-  </script>
+    function updatePlayButton() {
+
+        if (audio.paused) {
+
+            playButton.innerHTML =
+                '<span class="play-icon"></span>';
+
+            playButton.setAttribute(
+                "aria-label",
+                "Воспроизвести"
+            );
+
+        } else {
+
+            playButton.innerHTML = `
+                <span class="pause-icon">
+                    <span></span>
+                    <span></span>
+                </span>
+            `;
+
+            playButton.setAttribute(
+                "aria-label",
+                "Пауза"
+            );
+        }
+    }
+
+
+    playButton.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                if (audio.paused) {
+                    await audio.play();
+                } else {
+                    audio.pause();
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Ошибка воспроизведения:",
+                    error
+                );
+            }
+        }
+    );
+
+
+    audio.addEventListener(
+        "loadedmetadata",
+        () => {
+
+            durationElement.textContent =
+                formatTime(audio.duration);
+        }
+    );
+
+
+    audio.addEventListener(
+        "timeupdate",
+        () => {
+
+            const duration =
+                audio.duration;
+
+            const current =
+                audio.currentTime;
+
+            if (Number.isFinite(duration) &&
+                duration > 0) {
+
+                const percent =
+                    (current / duration) * 100;
+
+                progressFill.style.width =
+                    percent + "%";
+
+                progressThumb.style.left =
+                    percent + "%";
+            }
+
+            currentTimeElement.textContent =
+                formatTime(current);
+
+            updateLyrics(current);
+        }
+    );
+
+
+    audio.addEventListener(
+        "play",
+        updatePlayButton
+    );
+
+    audio.addEventListener(
+        "pause",
+        updatePlayButton
+    );
+
+
+    audio.addEventListener(
+        "ended",
+        () => {
+
+            updatePlayButton();
+
+            progressFill.style.width =
+                "0%";
+
+            progressThumb.style.left =
+                "0%";
+
+            currentTimeElement.textContent =
+                "0:00";
+
+            activeLyricIndex = -1;
+
+            updateLyrics(0);
+        }
+    );
+
+
+    /* SEEK */
+
+    function seekFromPointer(clientX) {
+
+        const rect =
+            progressContainer.getBoundingClientRect();
+
+        let percent =
+            (clientX - rect.left) /
+            rect.width;
+
+        percent =
+            Math.max(
+                0,
+                Math.min(1, percent)
+            );
+
+        if (Number.isFinite(audio.duration)) {
+
+            audio.currentTime =
+                percent * audio.duration;
+        }
+    }
+
+
+    progressContainer.addEventListener(
+        "pointerdown",
+        (event) => {
+
+            progressContainer.setPointerCapture(
+                event.pointerId
+            );
+
+            seekFromPointer(
+                event.clientX
+            );
+        }
+    );
+
+
+    progressContainer.addEventListener(
+        "pointermove",
+        (event) => {
+
+            if (
+                event.buttons === 1 &&
+                progressContainer.hasPointerCapture(
+                    event.pointerId
+                )
+            ) {
+
+                seekFromPointer(
+                    event.clientX
+                );
+            }
+        }
+    );
+
+
+    /* LOAD */
+
+    loadLyrics();
+    updatePlayButton();
+
+</script>
+
 </body>
 </html>
+```
