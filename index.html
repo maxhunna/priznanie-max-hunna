@@ -1,8 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"
@@ -14,13 +14,11 @@
 
     <style>
         :root {
-            --bg: #4a050a;
-            --bg-dark: #350307;
-            --red: #b30d18;
-            --red-light: #c91622;
+            --background: #470509;
+            --lyrics-background: #b20d18;
             --white: #ffffff;
-            --white-soft: rgba(255, 255, 255, 0.72);
-            --white-faint: rgba(255, 255, 255, 0.42);
+            --white-muted: rgba(255, 255, 255, 0.48);
+            --white-track: rgba(255, 255, 255, 0.28);
         }
 
         * {
@@ -32,10 +30,13 @@
         body {
             margin: 0;
             padding: 0;
+
             width: 100%;
             min-height: 100%;
-            background: var(--bg);
+
+            background: var(--background);
             color: var(--white);
+
             font-family:
                 -apple-system,
                 BlinkMacSystemFont,
@@ -51,131 +52,124 @@
             overflow-x: hidden;
         }
 
-        button,
-        input {
+        button {
             font: inherit;
         }
 
         .app {
             width: 100%;
             min-height: 100dvh;
+
             padding:
-                max(24px, env(safe-area-inset-top))
-                20px
+                max(12px, env(safe-area-inset-top))
+                16px
                 max(24px, env(safe-area-inset-bottom));
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            background:
-                radial-gradient(
-                    circle at 50% 0%,
-                    rgba(255, 50, 60, 0.13),
-                    transparent 38%
-                ),
-                linear-gradient(
-                    180deg,
-                    #57070d 0%,
-                    #4a050a 48%,
-                    #380307 100%
-                );
+            background: var(--background);
         }
 
         .content {
             width: 100%;
-            max-width: 430px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 520px;
+            margin: 0 auto;
         }
 
-        /* COVER */
+
+        /* =========================
+           COVER
+        ========================= */
 
         .cover-wrapper {
-            width: min(78vw, 330px);
+            width: 100%;
             aspect-ratio: 1 / 1;
 
-            margin-top: 8px;
-
-            border-radius: 24px;
             overflow: hidden;
 
-            background: #280205;
+            border-radius: 10px;
 
-            box-shadow:
-                0 24px 55px rgba(0, 0, 0, 0.35),
-                0 8px 20px rgba(0, 0, 0, 0.2);
-
-            transform: translateZ(0);
+            background: #260205;
         }
 
         .cover {
+            display: block;
+
             width: 100%;
             height: 100%;
-            display: block;
+
             object-fit: cover;
 
             user-select: none;
             -webkit-user-drag: none;
         }
 
-        /* TITLE */
+
+        /* =========================
+           TITLE
+        ========================= */
 
         .title {
-            margin-top: 22px;
-            text-align: center;
+            margin-top: 16px;
         }
 
         .title h1 {
             margin: 0;
 
-            font-size: 29px;
-            line-height: 1.08;
+            font-size: 26px;
+            line-height: 1.1;
+
             font-weight: 700;
-            letter-spacing: -0.7px;
+
+            letter-spacing: -0.5px;
         }
 
         .title p {
-            margin: 7px 0 0;
+            margin: 5px 0 0;
 
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.2;
+
             font-weight: 500;
 
-            color: var(--white-soft);
-            letter-spacing: -0.1px;
+            color: rgba(255, 255, 255, 0.62);
         }
 
-        /* PLAYER */
+
+        /* =========================
+           PLAYER
+        ========================= */
 
         .player {
-            width: 100%;
-            margin-top: 24px;
+            margin-top: 18px;
         }
 
         .time-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
 
-            margin-bottom: 8px;
+            justify-content: space-between;
+
+            margin-bottom: 5px;
 
             font-size: 12px;
-            font-weight: 500;
 
-            color: var(--white-soft);
+            color: rgba(255, 255, 255, 0.55);
+
             font-variant-numeric: tabular-nums;
         }
 
+
+        /* PROGRESS */
+
         .progress-container {
+            position: relative;
+
             width: 100%;
-            height: 28px;
+            height: 24px;
 
             display: flex;
             align-items: center;
 
             cursor: pointer;
+
             touch-action: none;
         }
 
@@ -183,86 +177,109 @@
             position: relative;
 
             width: 100%;
-            height: 5px;
+            height: 4px;
 
-            border-radius: 999px;
+            border-radius: 100px;
 
-            background: rgba(255, 255, 255, 0.24);
-            overflow: visible;
+            background: var(--white-track);
         }
 
         .progress-fill {
             position: absolute;
-            top: 0;
-            left: 0;
 
-            width: 0%;
+            left: 0;
+            top: 0;
+
+            width: 0;
             height: 100%;
 
-            border-radius: 999px;
-            background: #ffffff;
+            border-radius: 100px;
 
-            pointer-events: none;
+            background: var(--white);
         }
 
         .progress-thumb {
             position: absolute;
-            top: 50%;
-            left: 0%;
 
-            width: 15px;
-            height: 15px;
+            left: 0;
+            top: 50%;
+
+            width: 13px;
+            height: 13px;
 
             border-radius: 50%;
 
-            background: #ffffff;
+            background: var(--white);
 
             transform: translate(-50%, -50%);
 
-            box-shadow:
-                0 2px 7px rgba(0, 0, 0, 0.28);
-
-            pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
+
+
+        /* CONTROLS */
 
         .controls {
-            margin-top: 14px;
-
             display: flex;
+
             align-items: center;
             justify-content: center;
+
+            gap: 30px;
+
+            margin-top: 8px;
         }
 
-        .play-button {
-            width: 68px;
-            height: 68px;
+        .control-button {
+            width: 48px;
+            height: 48px;
 
             border: 0;
+
             border-radius: 50%;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: #ffffff;
-            color: var(--red);
+            background: var(--white);
+
+            color: var(--background);
 
             cursor: pointer;
 
-            box-shadow:
-                0 10px 25px rgba(0, 0, 0, 0.28),
-                0 2px 6px rgba(0, 0, 0, 0.18);
-
-            transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
+            transition: transform 0.12s ease;
         }
 
-        .play-button:active {
-            transform: scale(0.93);
+        .control-button:active {
+            transform: scale(0.91);
+        }
 
-            box-shadow:
-                0 5px 15px rgba(0, 0, 0, 0.25);
+
+        /* 10 SECOND ICON */
+
+        .skip-icon {
+            position: relative;
+
+            width: 23px;
+            height: 23px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skip-icon svg {
+            width: 23px;
+            height: 23px;
+        }
+
+
+        /* PLAY */
+
+        .play-button {
+            width: 64px;
+            height: 64px;
         }
 
         .play-icon {
@@ -278,6 +295,7 @@
 
         .pause-icon {
             display: flex;
+
             gap: 5px;
         }
 
@@ -285,47 +303,34 @@
             width: 5px;
             height: 21px;
 
-            border-radius: 2px;
+            border-radius: 1px;
 
             background: currentColor;
         }
 
-        /* LYRICS */
+
+        /* =========================
+           LYRICS
+        ========================= */
 
         .lyrics {
             width: 100%;
 
-            margin-top: 26px;
+            margin-top: 24px;
+
             padding: 22px 18px;
 
-            background:
-                linear-gradient(
-                    145deg,
-                    #c91622 0%,
-                    #b30d18 55%,
-                    #9f0913 100%
-                );
+            background: var(--lyrics-background);
 
-            border-radius: 22px;
-
-            box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.18);
-
-            min-height: 190px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
-            overflow: hidden;
+            border-radius: 8px;
         }
 
         .lyrics-scroll {
             width: 100%;
-            max-height: 245px;
+
+            max-height: 310px;
 
             overflow-y: auto;
-            overscroll-behavior: contain;
 
             scrollbar-width: none;
 
@@ -337,89 +342,97 @@
         }
 
         .lyric-line {
-            padding: 7px 4px;
+            width: 100%;
 
-            text-align: center;
+            padding: 5px 0;
 
-            font-size: 16px;
-            line-height: 1.35;
+            text-align: left;
 
-            font-weight: 500;
+            font-size: 17px;
+            line-height: 1.42;
 
-            color: rgba(255, 255, 255, 0.43);
+            font-weight: 700;
+
+            color: var(--white-muted);
+
+            cursor: pointer;
 
             transition:
-                color 0.25s ease,
-                transform 0.25s ease,
-                opacity 0.25s ease,
-                font-size 0.25s ease;
+                color 0.2s ease,
+                opacity 0.2s ease;
         }
 
         .lyric-line.active {
-            color: #ffffff;
+            color: var(--white);
+        }
 
-            font-size: 20px;
-            font-weight: 700;
-
-            transform: scale(1.015);
+        .lyric-line:active {
+            opacity: 0.65;
         }
 
         .lyrics-empty {
-            text-align: center;
+            text-align: left;
 
-            color: rgba(255, 255, 255, 0.55);
+            font-size: 16px;
 
-            font-size: 15px;
+            color: var(--white-muted);
         }
 
-        /* AUDIO */
 
-        audio {
-            display: none;
-        }
-
-        /* DESKTOP */
+        /* =========================
+           DESKTOP
+        ========================= */
 
         @media (min-width: 700px) {
+
             .app {
-                padding-top: 40px;
+                padding-top: 30px;
+            }
+
+            .content {
+                max-width: 540px;
             }
 
             .cover-wrapper {
-                width: 350px;
-            }
-
-            .lyrics {
-                min-height: 210px;
+                border-radius: 12px;
             }
         }
 
-        /* SMALL PHONES */
+
+        /* =========================
+           SMALL PHONES
+        ========================= */
 
         @media (max-height: 700px) {
-            .cover-wrapper {
-                width: min(64vw, 270px);
+
+            .app {
+                padding-top: 8px;
             }
 
             .title {
-                margin-top: 15px;
+                margin-top: 12px;
             }
 
             .title h1 {
-                font-size: 26px;
+                font-size: 24px;
             }
 
             .player {
-                margin-top: 17px;
+                margin-top: 14px;
             }
 
             .lyrics {
                 margin-top: 18px;
-                padding: 17px 15px;
+                padding: 18px 16px;
+            }
+
+            .lyrics-scroll {
+                max-height: 245px;
             }
         }
     </style>
 </head>
+
 
 <body>
 
@@ -428,34 +441,55 @@
     <main class="content">
 
         <!-- COVER -->
+
         <div class="cover-wrapper">
+
             <img
                 class="cover"
                 src="assets/cover.png"
                 alt="Признание"
             >
+
         </div>
+
 
         <!-- TITLE -->
+
         <div class="title">
+
             <h1>Признание</h1>
+
             <p>Max Hunna</p>
+
         </div>
 
+
         <!-- PLAYER -->
+
         <div class="player">
 
             <div class="time-row">
-                <span id="currentTime">0:00</span>
-                <span id="duration">0:00</span>
+
+                <span id="currentTime">
+                    0:00
+                </span>
+
+                <span id="duration">
+                    0:00
+                </span>
+
             </div>
+
+
+            <!-- PROGRESS -->
 
             <div
                 class="progress-container"
                 id="progressContainer"
-                aria-label="Перемотка"
             >
+
                 <div class="progress-track">
+
                     <div
                         class="progress-fill"
                         id="progressFill"
@@ -465,36 +499,149 @@
                         class="progress-thumb"
                         id="progressThumb"
                     ></div>
+
                 </div>
+
             </div>
+
+
+            <!-- CONTROLS -->
 
             <div class="controls">
 
+                <!-- BACK 10 -->
+
                 <button
-                    class="play-button"
+                    class="control-button"
+                    id="backButton"
+                    aria-label="Назад 10 секунд"
+                >
+
+                    <span class="skip-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+
+                            <path
+                                d="M9 7L4 12L9 17"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <path
+                                d="M4 12H13C16.866 12 20 15.134 20 19"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            />
+
+                            <text
+                                x="11"
+                                y="10"
+                                text-anchor="middle"
+                                font-size="6"
+                                font-weight="700"
+                                fill="currentColor"
+                                font-family="Arial"
+                            >
+                                10
+                            </text>
+
+                        </svg>
+
+                    </span>
+
+                </button>
+
+
+                <!-- PLAY -->
+
+                <button
+                    class="control-button play-button"
                     id="playButton"
                     aria-label="Воспроизвести"
                 >
+
                     <span class="play-icon"></span>
+
+                </button>
+
+
+                <!-- FORWARD 10 -->
+
+                <button
+                    class="control-button"
+                    id="forwardButton"
+                    aria-label="Вперёд 10 секунд"
+                >
+
+                    <span class="skip-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+
+                            <path
+                                d="M15 7L20 12L15 17"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <path
+                                d="M20 12H11C7.134 12 4 15.134 4 19"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            />
+
+                            <text
+                                x="13"
+                                y="10"
+                                text-anchor="middle"
+                                font-size="6"
+                                font-weight="700"
+                                fill="currentColor"
+                                font-family="Arial"
+                            >
+                                10
+                            </text>
+
+                        </svg>
+
+                    </span>
+
                 </button>
 
             </div>
 
         </div>
 
+
         <!-- LYRICS -->
+
         <section class="lyrics">
 
             <div
                 class="lyrics-scroll"
                 id="lyricsScroll"
             >
+
                 <div
                     class="lyrics-empty"
                     id="lyricsEmpty"
                 >
                     Загрузка текста…
                 </div>
+
             </div>
 
         </section>
@@ -503,93 +650,154 @@
 
 </div>
 
+
+<!-- AUDIO -->
+
 <audio
     id="audio"
     preload="metadata"
     playsinline
 >
+
     <source
         src="assets/song.mp3"
         type="audio/mpeg"
     >
+
 </audio>
 
-<script>
-    /* TELEGRAM */
 
-    const tg = window.Telegram?.WebApp;
+<script>
+
+    /* ==========================================
+       TELEGRAM
+    ========================================== */
+
+    const tg =
+        window.Telegram?.WebApp;
 
     if (tg) {
+
         tg.ready();
+
         tg.expand();
 
         if (tg.setHeaderColor) {
-            tg.setHeaderColor("#4A050A");
+            tg.setHeaderColor("#470509");
         }
 
         if (tg.setBackgroundColor) {
-            tg.setBackgroundColor("#4A050A");
+            tg.setBackgroundColor("#470509");
         }
     }
 
 
-    /* ELEMENTS */
+    /* ==========================================
+       ELEMENTS
+    ========================================== */
 
-    const audio = document.getElementById("audio");
-    const playButton = document.getElementById("playButton");
+    const audio =
+        document.getElementById("audio");
+
+    const playButton =
+        document.getElementById("playButton");
+
+    const backButton =
+        document.getElementById("backButton");
+
+    const forwardButton =
+        document.getElementById("forwardButton");
 
     const progressContainer =
-        document.getElementById("progressContainer");
+        document.getElementById(
+            "progressContainer"
+        );
 
     const progressFill =
-        document.getElementById("progressFill");
+        document.getElementById(
+            "progressFill"
+        );
 
     const progressThumb =
-        document.getElementById("progressThumb");
+        document.getElementById(
+            "progressThumb"
+        );
 
     const currentTimeElement =
-        document.getElementById("currentTime");
+        document.getElementById(
+            "currentTime"
+        );
 
     const durationElement =
-        document.getElementById("duration");
+        document.getElementById(
+            "duration"
+        );
 
     const lyricsScroll =
-        document.getElementById("lyricsScroll");
+        document.getElementById(
+            "lyricsScroll"
+        );
 
     const lyricsEmpty =
-        document.getElementById("lyricsEmpty");
+        document.getElementById(
+            "lyricsEmpty"
+        );
 
 
-    /* LYRICS */
+    /* ==========================================
+       LYRICS
+    ========================================== */
 
     let lyrics = [];
+
     let activeLyricIndex = -1;
 
+
+    /*
+       Поддерживаются обычные LRC:
+
+       [00:12.50]Текст строки
+
+       Также поддерживаются:
+
+       [01:02]Текст строки
+    */
 
     function parseLRC(text) {
 
         const result = [];
 
-        const lines = text.split(/\r?\n/);
+        const lines =
+            text.split(/\r?\n/);
 
         for (const line of lines) {
 
             const matches = [
-                ...line.matchAll(/\[(\d+):(\d+(?:\.\d+)?)\]/g)
+                ...line.matchAll(
+                    /\[(\d+):(\d+(?:\.\d+)?)\]/g
+                )
             ];
 
             if (!matches.length) {
                 continue;
             }
 
-            const textPart = line
-                .replace(/\[\d+:\d+(?:\.\d+)?\]/g, "")
-                .trim();
+            const textPart =
+                line
+                    .replace(
+                        /\[\d+:\d+(?:\.\d+)?\]/g,
+                        ""
+                    )
+                    .trim();
+
 
             for (const match of matches) {
 
-                const minutes = Number(match[1]);
-                const seconds = Number(match[2]);
+                const minutes =
+                    Number(match[1]);
+
+                const seconds =
+                    Number(match[2]);
 
                 const time =
                     minutes * 60 +
@@ -602,7 +810,12 @@
             }
         }
 
-        result.sort((a, b) => a.time - b.time);
+
+        result.sort(
+            (a, b) =>
+                a.time - b.time
+        );
+
 
         return result;
     }
@@ -612,23 +825,38 @@
 
         try {
 
+            /*
+                Добавляем timestamp к URL,
+                чтобы браузер не показывал
+                старый LRC из кэша.
+            */
+
             const response =
                 await fetch(
-                    "assets/lyrics.lrc?version=" +
+                    "assets/lyrics.lrc?v=" +
                     Date.now()
                 );
 
+
             if (!response.ok) {
+
                 throw new Error(
-                    "LRC HTTP " + response.status
+                    "LRC HTTP " +
+                    response.status
                 );
             }
 
-            const text = await response.text();
 
-            lyrics = parseLRC(text);
+            const text =
+                await response.text();
+
+
+            lyrics =
+                parseLRC(text);
+
 
             renderLyrics();
+
 
         } catch (error) {
 
@@ -636,6 +864,7 @@
                 "Ошибка загрузки LRC:",
                 error
             );
+
 
             lyricsEmpty.textContent =
                 "Текст песни пока недоступен.";
@@ -647,10 +876,13 @@
 
         lyricsScroll.innerHTML = "";
 
+
         if (!lyrics.length) {
 
             const empty =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             empty.className =
                 "lyrics-empty";
@@ -658,73 +890,173 @@
             empty.textContent =
                 "Текст песни пока недоступен.";
 
-            lyricsScroll.appendChild(empty);
+            lyricsScroll.appendChild(
+                empty
+            );
 
             return;
         }
 
-        lyrics.forEach((line, index) => {
 
-            const element =
-                document.createElement("div");
+        lyrics.forEach(
+            (line, index) => {
 
-            element.className =
-                "lyric-line";
+                const element =
+                    document.createElement(
+                        "div"
+                    );
 
-            element.dataset.index =
-                index;
 
-            element.textContent =
-                line.text || " ";
+                element.className =
+                    "lyric-line";
 
-            lyricsScroll.appendChild(element);
-        });
+
+                element.dataset.index =
+                    index;
+
+
+                element.textContent =
+                    line.text || " ";
+
+
+                /*
+                    ВАЖНО:
+
+                    Теперь каждая строка
+                    является кнопкой перемотки.
+                */
+
+                element.addEventListener(
+                    "click",
+                    async () => {
+
+                        audio.currentTime =
+                            line.time;
+
+                        activeLyricIndex =
+                            index;
+
+                        updateLyrics(
+                            line.time,
+                            true
+                        );
+
+
+                        /*
+                            Если трек был остановлен,
+                            нажатие на строку
+                            автоматически запускает его.
+                        */
+
+                        try {
+
+                            if (audio.paused) {
+
+                                await audio.play();
+                            }
+
+                        } catch (error) {
+
+                            console.error(
+                                "Не удалось запустить трек:",
+                                error
+                            );
+                        }
+                    }
+                );
+
+
+                lyricsScroll.appendChild(
+                    element
+                );
+            }
+        );
     }
 
 
-    function updateLyrics(time) {
+    function updateLyrics(
+        time,
+        forceScroll = false
+    ) {
 
         if (!lyrics.length) {
             return;
         }
 
+
         let newIndex = -1;
 
-        for (let i = 0; i < lyrics.length; i++) {
 
-            if (time >= lyrics[i].time) {
+        for (
+            let i = 0;
+            i < lyrics.length;
+            i++
+        ) {
+
+            if (
+                time >=
+                lyrics[i].time
+            ) {
+
                 newIndex = i;
+
             } else {
+
                 break;
             }
         }
 
-        if (newIndex === activeLyricIndex) {
+
+        if (
+            newIndex ===
+            activeLyricIndex &&
+            !forceScroll
+        ) {
+
             return;
         }
 
-        activeLyricIndex = newIndex;
+
+        activeLyricIndex =
+            newIndex;
+
 
         const elements =
-            lyricsScroll.querySelectorAll(".lyric-line");
-
-        elements.forEach((element, index) => {
-
-            element.classList.toggle(
-                "active",
-                index === activeLyricIndex
+            lyricsScroll.querySelectorAll(
+                ".lyric-line"
             );
-        });
 
-        if (activeLyricIndex >= 0) {
+
+        elements.forEach(
+            (element, index) => {
+
+                element.classList.toggle(
+                    "active",
+                    index ===
+                    activeLyricIndex
+                );
+            }
+        );
+
+
+        if (
+            activeLyricIndex >= 0
+        ) {
 
             const activeElement =
-                elements[activeLyricIndex];
+                elements[
+                    activeLyricIndex
+                ];
+
 
             if (activeElement) {
 
                 activeElement.scrollIntoView({
-                    behavior: "smooth",
+                    behavior:
+                        forceScroll
+                            ? "smooth"
+                            : "smooth",
+
                     block: "center"
                 });
             }
@@ -732,27 +1064,48 @@
     }
 
 
-    /* PLAYER */
+    /* ==========================================
+       TIME
+    ========================================== */
 
-    function formatTime(seconds) {
+    function formatTime(
+        seconds
+    ) {
 
-        if (!Number.isFinite(seconds)) {
+        if (
+            !Number.isFinite(
+                seconds
+            )
+        ) {
+
             return "0:00";
         }
 
+
         const minutes =
-            Math.floor(seconds / 60);
+            Math.floor(
+                seconds / 60
+            );
+
 
         const secs =
-            Math.floor(seconds % 60);
+            Math.floor(
+                seconds % 60
+            );
+
 
         return (
             minutes +
             ":" +
-            String(secs).padStart(2, "0")
+            String(secs)
+                .padStart(2, "0")
         );
     }
 
+
+    /* ==========================================
+       PLAY BUTTON
+    ========================================== */
 
     function updatePlayButton() {
 
@@ -789,9 +1142,14 @@
 
             try {
 
-                if (audio.paused) {
+                if (
+                    audio.paused
+                ) {
+
                     await audio.play();
+
                 } else {
+
                     audio.pause();
                 }
 
@@ -806,15 +1164,71 @@
     );
 
 
+    /* ==========================================
+       10 SEC BACK
+    ========================================== */
+
+    backButton.addEventListener(
+        "click",
+        () => {
+
+            audio.currentTime =
+                Math.max(
+                    0,
+                    audio.currentTime - 10
+                );
+
+
+            updateLyrics(
+                audio.currentTime,
+                true
+            );
+        }
+    );
+
+
+    /* ==========================================
+       10 SEC FORWARD
+    ========================================== */
+
+    forwardButton.addEventListener(
+        "click",
+        () => {
+
+            audio.currentTime =
+                Math.min(
+                    audio.duration || Infinity,
+                    audio.currentTime + 10
+                );
+
+
+            updateLyrics(
+                audio.currentTime,
+                true
+            );
+        }
+    );
+
+
+    /* ==========================================
+       AUDIO METADATA
+    ========================================== */
+
     audio.addEventListener(
         "loadedmetadata",
         () => {
 
             durationElement.textContent =
-                formatTime(audio.duration);
+                formatTime(
+                    audio.duration
+                );
         }
     );
 
+
+    /* ==========================================
+       AUDIO TIME UPDATE
+    ========================================== */
 
     audio.addEventListener(
         "timeupdate",
@@ -826,23 +1240,39 @@
             const current =
                 audio.currentTime;
 
-            if (Number.isFinite(duration) &&
-                duration > 0) {
+
+            if (
+                Number.isFinite(
+                    duration
+                ) &&
+                duration > 0
+            ) {
 
                 const percent =
-                    (current / duration) * 100;
+                    (
+                        current /
+                        duration
+                    ) * 100;
+
 
                 progressFill.style.width =
                     percent + "%";
+
 
                 progressThumb.style.left =
                     percent + "%";
             }
 
-            currentTimeElement.textContent =
-                formatTime(current);
 
-            updateLyrics(current);
+            currentTimeElement.textContent =
+                formatTime(
+                    current
+                );
+
+
+            updateLyrics(
+                current
+            );
         }
     );
 
@@ -852,11 +1282,16 @@
         updatePlayButton
     );
 
+
     audio.addEventListener(
         "pause",
         updatePlayButton
     );
 
+
+    /* ==========================================
+       END
+    ========================================== */
 
     audio.addEventListener(
         "ended",
@@ -864,43 +1299,74 @@
 
             updatePlayButton();
 
+
             progressFill.style.width =
                 "0%";
+
 
             progressThumb.style.left =
                 "0%";
 
+
             currentTimeElement.textContent =
                 "0:00";
 
-            activeLyricIndex = -1;
+
+            activeLyricIndex =
+                -1;
+
 
             updateLyrics(0);
         }
     );
 
 
-    /* SEEK */
+    /* ==========================================
+       PROGRESS SEEK
+    ========================================== */
 
-    function seekFromPointer(clientX) {
+    function seekFromPointer(
+        clientX
+    ) {
 
         const rect =
-            progressContainer.getBoundingClientRect();
+            progressContainer
+                .getBoundingClientRect();
+
 
         let percent =
-            (clientX - rect.left) /
+            (
+                clientX -
+                rect.left
+            ) /
             rect.width;
+
 
         percent =
             Math.max(
                 0,
-                Math.min(1, percent)
+                Math.min(
+                    1,
+                    percent
+                )
             );
 
-        if (Number.isFinite(audio.duration)) {
+
+        if (
+            Number.isFinite(
+                audio.duration
+            )
+        ) {
 
             audio.currentTime =
-                percent * audio.duration;
+                percent *
+                audio.duration;
+
+
+            updateLyrics(
+                audio.currentTime,
+                true
+            );
         }
     }
 
@@ -912,6 +1378,7 @@
             progressContainer.setPointerCapture(
                 event.pointerId
             );
+
 
             seekFromPointer(
                 event.clientX
@@ -939,13 +1406,15 @@
     );
 
 
-    /* LOAD */
+    /* ==========================================
+       START
+    ========================================== */
 
     loadLyrics();
+
     updatePlayButton();
 
 </script>
 
 </body>
 </html>
-```
